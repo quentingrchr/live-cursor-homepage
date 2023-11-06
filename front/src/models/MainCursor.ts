@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 // @ts-ignore
-import svg from "./assets/images/main-cursor.svg";
+import svg from "../assets/images/main-cursor.svg";
 
 export class MainCursor extends PIXI.Sprite {
   constructor(x: number = 0, y: number = 0) {

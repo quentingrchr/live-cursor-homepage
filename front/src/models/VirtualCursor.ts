@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 // @ts-ignore
-import svg from "./assets/images/virtual-cursor.svg";
+import svg from "../assets/images/virtual-cursor.svg";
 
 export class VirtualCursor extends PIXI.Sprite {
   constructor(x: number, y: number, color: string) {

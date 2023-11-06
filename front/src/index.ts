@@ -1,14 +1,13 @@
 import * as PIXI from "pixi.js";
 // @ts-ignore
-import svg from "./assets/images/main-cursor.svg";
 
 import { io } from "socket.io-client";
 import { getPixiApp, createVirtualCursorSprite } from "./pixi";
-import { Position, SocketCursor } from "./types";
-import { App } from "./App";
-import { MainCursor } from "./MainCursor";
-import { VirtualCursor } from "./VirtualCursor";
-import { ClickCursor } from "./ClickCursor";
+import { CursorData, Position, SocketCursor } from "./types";
+import { App } from "./models/App";
+import { MainCursor } from "./models/MainCursor";
+import { VirtualCursor } from "./models/VirtualCursor";
+import { ClickAnimation } from "./models/ClickAnimation";
 // socketRef.current = io("http://localhost:3001");
 // socketRef.current.on(
 //   SocketEvents.PositionsUpdate,
@@ -37,7 +36,11 @@ async function main() {
   }
 
   function onMouseClick(e: MouseEvent) {
-    socket.emit(SocketEvents.CursorClick, { x: e.clientX, y: e.clientY });
+    socket.emit(SocketEvents.CursorClick, {
+      x: e.clientX,
+      y: e.clientY,
+      id: socket.id,
+    });
   }
 
   socket.on("connect", () => {
@@ -65,8 +68,8 @@ async function main() {
       });
     });
 
-    socket.on(SocketEvents.CursorClick, (data: Position) => {
-      const click = new ClickCursor(data.x, data.y);
+    socket.on(SocketEvents.CursorClick, (data: CursorData) => {
+      const click = new ClickAnimation(data.x, data.y, data.color, app.stage);
       app.addClickAnimation(click);
     });
   });

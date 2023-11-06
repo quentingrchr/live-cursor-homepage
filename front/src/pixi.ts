@@ -2,8 +2,8 @@ import * as PIXI from "pixi.js";
 // @ts-ignore
 import svg from "./assets/images/main-cursor.svg";
 import { io } from "socket.io-client";
-import { MainCursor } from "./MainCursor";
-import { App } from "./App";
+import { MainCursor } from "./models/MainCursor";
+import { App } from "./models/App";
 
 export function createMainCursorSprite(svg: any) {
   const texture = PIXI.Texture.from(svg);
@@ -29,8 +29,4 @@ export function createVirtualCursorSprite({ x = 0, y = 0 }) {
   return sprite;
 }
 
-export async function getPixiApp() {
-  const app = new App();
-  const mainSprite = new MainCursor();
-  app.stage.addChild(mainSprite);
-}
+export async function getPixiApp() {}
