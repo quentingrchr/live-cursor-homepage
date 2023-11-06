@@ -1,7 +1,9 @@
 import * as PIXI from "pixi.js";
+import { CursorData } from "../types";
+import { ClickAnimation } from "./ClickAnimation";
 
 export class App extends PIXI.Application {
-  // create variables toto
+  id: string; // Socket id
   cursorCollection: Array<PIXI.Sprite | PIXI.Graphics>;
 
   constructor(id: string) {
@@ -15,6 +17,7 @@ export class App extends PIXI.Application {
       view: $canva as HTMLCanvasElement,
       resolution: 2,
     });
+    this.id = id;
     PIXI.settings.RESOLUTION = window.devicePixelRatio;
     let windowScreenWith = window.innerWidth;
     let windowScreenHeight = window.innerHeight;
@@ -41,11 +44,11 @@ export class App extends PIXI.Application {
     this.stage.addChild(cursor);
   }
 
-  addClickAnimation(animation: PIXI.Sprite | PIXI.Graphics) {
-    this.stage.addChild(animation);
-    setTimeout(() => {
-      this.stage.removeChild(animation);
-    }, 1000);
+  addCursorClickAnimation(data: CursorData) {
+    const { x, y, id } = data;
+    const isMainCursor = id === this.id;
+    const color = isMainCursor ? "0x000000" : data.color;
+    const clickAnimation = new ClickAnimation(x, y, color, this.stage);
   }
 
   clearCursors() {

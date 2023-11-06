@@ -66,11 +66,9 @@ async function main() {
           app.addCursor(virtualCursor);
         }
       });
-    });
-
-    socket.on(SocketEvents.CursorClick, (data: CursorData) => {
-      const click = new ClickAnimation(data.x, data.y, data.color, app.stage);
-      app.addClickAnimation(click);
+      socket.on(SocketEvents.CursorClick, (data: CursorData) => {
+        app.addCursorClickAnimation(data);
+      });
     });
   });
 
