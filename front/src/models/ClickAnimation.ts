@@ -5,7 +5,6 @@ import gsap from "gsap";
 
 export class ClickAnimation extends PIXI.Graphics {
   color: string;
-  radius: number;
   alpha: number;
   maxRadius: number;
   animationSpeed: number;
@@ -39,9 +38,8 @@ export class ClickAnimation extends PIXI.Graphics {
   }
 
   animate() {
-    this.emit(PixiEvents.StartClickAnimation);
     const rippleCount = 1;
-    const spacing = 40;
+    const spacing = 30;
     const duration = 1.5;
     const delay = 3;
     const radius = 20;
@@ -49,7 +47,7 @@ export class ClickAnimation extends PIXI.Graphics {
     for (let i = 0; i < rippleCount; i++) {
       const radiusRandomFactor = Math.random() * 2;
       const ripple = new PIXI.Graphics();
-      ripple.lineStyle(3, this.color, 1);
+      ripple.lineStyle(2, this.color, 1);
       ripple.drawCircle(0, 0, radius + spacing + radiusRandomFactor * i);
       ripple.endFill();
 
@@ -72,7 +70,7 @@ export class ClickAnimation extends PIXI.Graphics {
         delay: delay * i,
         ease: "power3.out",
         onComplete: () => {
-          ripple.destroy();
+          this.destroy();
         },
       });
     }

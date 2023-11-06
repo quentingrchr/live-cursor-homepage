@@ -50,7 +50,7 @@ io.on(SocketEvents.Connection, (socket) => {
     io.emit(SocketEvents.PositionsUpdate, cursorDataArray as CursorData[]);
   });
 
-  socket.on(SocketEvents.CursorClick, (data: Omit<CursorData, "color">) => {
+  socket.on(SocketEvents.SendCursorClick, (data: Omit<CursorData, "color">) => {
     console.log(`User ${socket.id} clicked`);
     io.emit(SocketEvents.CursorClick, {
       ...data,

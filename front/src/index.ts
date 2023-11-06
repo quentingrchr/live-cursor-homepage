@@ -8,6 +8,10 @@ import { App } from "./models/App";
 import { MainCursor } from "./models/MainCursor";
 import { VirtualCursor } from "./models/VirtualCursor";
 import { ClickAnimation } from "./models/ClickAnimation";
+import {
+  getAbsolutePositionFromRelativePosition,
+  getRelativePositionFromAbsolutePosition,
+} from "./utils/pixel";
 // socketRef.current = io("http://localhost:3001");
 // socketRef.current.on(
 //   SocketEvents.PositionsUpdate,
@@ -26,49 +30,57 @@ export enum SocketEvents {
   Disconnect = "disconnect",
   NewPosition = "new_position",
   PositionsUpdate = "positions_update",
+  SendCursorClick = "send_cursor_click",
   CursorClick = "cursor_click",
 }
 
 async function main() {
   const socket = io("http://localhost:3001");
+
   function onMouseMove(e: MouseEvent) {
-    socket.emit(SocketEvents.NewPosition, { x: e.clientX, y: e.clientY });
+    const position = App.absoluteToRelativePosition({
+      x: e.clientX,
+      y: e.clientY,
+    });
+    socket.emit(SocketEvents.NewPosition, position);
   }
 
   function onMouseClick(e: MouseEvent) {
-    socket.emit(SocketEvents.CursorClick, {
+    const position = App.absoluteToRelativePosition({
       x: e.clientX,
       y: e.clientY,
+    });
+    socket.emit(SocketEvents.SendCursorClick, {
+      ...position,
       id: socket.id,
     });
   }
+
+  window.addEventListener("mousemove", onMouseMove);
+  window.addEventListener("click", onMouseClick);
 
   socket.on("connect", () => {
     console.log("connected");
     console.log(socket.id);
     const app = new App(socket.id);
 
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("click", onMouseClick);
-
     socket.on(SocketEvents.PositionsUpdate, (data: Array<SocketCursor>) => {
       app.clearCursors();
       data.forEach((cursor) => {
+        const position = App.relativeToAbsolutePosition({
+          x: cursor.x,
+          y: cursor.y,
+        });
         if (cursor.id === socket.id) {
-          const mainCursor = new MainCursor(cursor.x, cursor.y);
-          app.addCursor(mainCursor);
+          app.addMainCursor(position);
         } else {
-          const virtualCursor = new VirtualCursor(
-            cursor.x,
-            cursor.y,
-            cursor.color
-          );
-          app.addCursor(virtualCursor);
+          app.addVirtualCursor({ ...position, color: cursor.color });
         }
       });
-      socket.on(SocketEvents.CursorClick, (data: CursorData) => {
-        app.addCursorClickAnimation(data);
-      });
+    });
+
+    socket.on(SocketEvents.CursorClick, (data: CursorData) => {
+      app.addCursorClickAnimation(data);
     });
   });
 
