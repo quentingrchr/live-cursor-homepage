@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "dafiltra"; /* The name you want to give to your font */
+  src: url("./assets/fonts/dalfitra.woff") format("woff"); /* Path to font */
+}
