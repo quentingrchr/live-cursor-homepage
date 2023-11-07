@@ -3,12 +3,14 @@ import { Socket } from "socket.io-client";
 import { SocketEvents } from "../../../shared/src";
 import { AbstractZoneSelection } from "./AbstractZoneSelection";
 
-export class ZoneSelection extends AbstractZoneSelection {
+export class VirtualZoneSelection extends AbstractZoneSelection {
+  id: string;
   isSelecting: boolean;
 
-  constructor(stage: PIXI.Container) {
-    super(stage);
+  constructor(id: string, stage: PIXI.Container, color = "") {
+    super(stage, color);
     this.isSelecting = false;
+    this.id = id;
   }
 
   startSelection(x: number, y: number) {

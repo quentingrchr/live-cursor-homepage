@@ -9,11 +9,13 @@ import { MainCursor } from "./MainCursor";
 import { VirtualCursor } from "./VirtualCursor";
 import { ZoneSelection } from "./ZoneSelection";
 import { Socket } from "socket.io-client";
+import { VirtualZoneSelection } from "./VirtualZoneSelection";
 
 export class App extends PIXI.Application {
   id: string; // Socket id
   cursorCollection: Array<PIXI.Sprite | PIXI.Graphics>;
   zoneSelection: ZoneSelection;
+  virtualZoneSelections: Array<VirtualZoneSelection>;
 
   constructor(socket: Socket) {
     const $canva = document.querySelector("#canvas") as Element;
@@ -28,6 +30,7 @@ export class App extends PIXI.Application {
     });
     this.id = socket.id;
     this.zoneSelection = new ZoneSelection(this.stage, socket);
+    this.virtualZoneSelections = [];
     this.setup();
 
     // Variable
@@ -125,6 +128,37 @@ export class App extends PIXI.Application {
       this.stage.removeChild(cursor);
     });
     this.cursorCollection = [];
+  }
+
+  addVirtualZoneSelection(id: string, { x, y }: Position, color?: string) {
+    const absolute = App.relativeToAbsolutePosition({ x, y });
+    const virtualZoneSelection = new VirtualZoneSelection(
+      id,
+      this.stage,
+      color
+    );
+    virtualZoneSelection.startSelection(absolute.x, absolute.y);
+    this.virtualZoneSelections.push(virtualZoneSelection);
+  }
+
+  updateVirtualZoneSelection(id: string, { x, y }: Position) {
+    const currentZone = this.virtualZoneSelections.find(
+      (virtualZoneSelection) => virtualZoneSelection.id === id
+    );
+    if (!currentZone) return;
+    const absolute = App.relativeToAbsolutePosition({ x, y });
+    currentZone.updateSelection(absolute.x, absolute.y);
+  }
+
+  endVirtualZoneSelection(id: string) {
+    const currentZone = this.virtualZoneSelections.find(
+      (virtualZoneSelection) => virtualZoneSelection.id === id
+    );
+    if (!currentZone) return;
+    currentZone.destroy();
+    this.virtualZoneSelections = this.virtualZoneSelections.filter(
+      (virtualZoneSelection) => virtualZoneSelection.id !== id
+    );
   }
 
   destroy() {

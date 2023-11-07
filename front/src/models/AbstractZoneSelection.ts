@@ -5,13 +5,15 @@ export abstract class AbstractZoneSelection extends PIXI.Graphics {
   startY: number | undefined;
   endX: number | undefined;
   endY: number | undefined;
-  constructor(private stage: PIXI.Container) {
+  color?: string | undefined;
+  constructor(private stage: PIXI.Container, color = "white") {
     super();
     stage.addChild(this);
     this.startX = undefined;
     this.startY = undefined;
     this.endX = undefined;
     this.endY = undefined;
+    this.color = color;
   }
 
   setStartPoint({ x, y }: { x: number; y: number }) {
@@ -68,8 +70,8 @@ export abstract class AbstractZoneSelection extends PIXI.Graphics {
   draw() {
     if (this.startX && this.startY && this.endX && this.endY) {
       this.clear();
-      this.lineStyle(2, 0xffffff, 1);
-      this.beginFill(0xffffff, 0.1);
+      this.lineStyle(2, this.color, 1);
+      this.beginFill(this.color, 0.1);
       const xIsOverflowingLeft = this.endX < this.startX;
       const yIsOverflowingTop = this.endY < this.startY;
       if (xIsOverflowingLeft && yIsOverflowingTop) {
