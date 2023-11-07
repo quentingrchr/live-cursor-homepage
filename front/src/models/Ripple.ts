@@ -1,9 +1,7 @@
 import * as PIXI from "pixi.js";
-// @ts-ignore
-import { PixiEvents } from "../../types";
 import gsap from "gsap";
 
-export class ClickAnimation extends PIXI.Graphics {
+export class Ripple extends PIXI.Graphics {
   color: string;
   alpha: number;
   maxRadius: number;
@@ -25,7 +23,7 @@ export class ClickAnimation extends PIXI.Graphics {
     this.animationSpeed = 0.02; // Adjust this to control the animation speed
 
     if (!stage) {
-      console.error("Stage is undefined. ClickAnimation cannot be created.");
+      console.error("Stage is undefined. Cannot add ripple to stage.");
       return;
     }
 

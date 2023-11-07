@@ -13,7 +13,3 @@ export interface SocketCursor extends Position {
   id: string;
   color: string;
 }
-
-export enum PixiEvents {
-  StartClickAnimation = "start_click_animation",
-}
