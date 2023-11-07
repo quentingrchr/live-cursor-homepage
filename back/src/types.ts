@@ -8,14 +8,14 @@ export interface CursorData extends Position {
   color: string;
 }
 
-export interface StartSelectionPayload {
+export interface SendStartSelectionPayload {
   id: string;
-  x: number;
-  y: number;
+  startX: number;
+  startY: number;
 }
 
-export interface UpdateSelectionPayload {
+export interface SendUpdateSelectionPayload {
   id: string;
-  x: number;
-  y: number;
+  endX: number;
+  endY: number;
 }

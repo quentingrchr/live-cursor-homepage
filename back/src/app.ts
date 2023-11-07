@@ -7,8 +7,8 @@ import { VIRTUAL_CURSOR_COLORS } from "./constants/cursor";
 import {
   CursorData,
   Position,
-  StartSelectionPayload,
-  UpdateSelectionPayload,
+  SendStartSelectionPayload,
+  SendUpdateSelectionPayload,
 } from "./types";
 
 const app = express();
@@ -54,19 +54,27 @@ io.on(SocketEvents.Connection, (socket) => {
     });
   });
 
-  socket.on(SocketEvents.SendStartSelection, (data: StartSelectionPayload) => {
-    console.log(`User ${socket.id} started selection`);
-    io.emit(SocketEvents.SendStartSelection, {
-      ...data,
-      id: socket.id,
-    });
-  });
+  socket.on(
+    SocketEvents.SendStartSelection,
+    (data: SendStartSelectionPayload) => {
+      console.log(
+        `User ${socket.id} started selection at x: ${data.startX}, y: ${data.startY}`
+      );
+      io.emit(SocketEvents.StartSelection, {
+        ...data,
+        id: socket.id,
+        color: cursorsData[socket.id].color,
+      });
+    }
+  );
 
   socket.on(
     SocketEvents.SendUpdateSelection,
-    (data: UpdateSelectionPayload) => {
-      console.log(`User ${socket.id} updated selection`);
-      io.emit(SocketEvents.SendUpdateSelection, {
+    (data: SendUpdateSelectionPayload) => {
+      console.log(
+        `User ${socket.id} updated selection: x: ${data.endX}, y: ${data.endY}`
+      );
+      io.emit(SocketEvents.UpdateSelection, {
         ...data,
         id: socket.id,
       });
@@ -75,7 +83,7 @@ io.on(SocketEvents.Connection, (socket) => {
 
   socket.on(SocketEvents.SendEndSelection, () => {
     console.log(`User ${socket.id} ended selection`);
-    io.emit(SocketEvents.SendEndSelection, {
+    io.emit(SocketEvents.EndSelection, {
       id: socket.id,
     });
   });
