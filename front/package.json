@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx parcel src/index.html --open"
+    "dev": "npx parcel src/index.html --open",
+    "clean": "rm -rf dist && rm -rf .parcel-cache"
   },
   "keywords": [],
   "author": "",
