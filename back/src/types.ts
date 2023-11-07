@@ -19,3 +19,5 @@ export interface SendUpdateSelectionPayload {
   endX: number;
   endY: number;
 }
+
+export type CursorState = Record<string, CursorData>;

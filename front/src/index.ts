@@ -21,7 +21,7 @@ export enum SocketEvents {
 }
 
 async function main() {
-  const socket = io("http://localhost:3001");
+  const socket = io("http://localhost:3000");
 
   function onMouseMove(e: MouseEvent) {
     const position = App.absoluteToRelativePosition({
