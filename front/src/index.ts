@@ -1,38 +1,10 @@
 import * as PIXI from "pixi.js";
 // @ts-ignore
+import { SocketEvents } from "../../shared";
 
 import { io } from "socket.io-client";
-import { getPixiApp, createVirtualCursorSprite } from "./pixi";
-import { CursorData, Position, SocketCursor } from "./types";
+import { CursorData, SocketCursor } from "../types";
 import { App } from "./models/App";
-import { MainCursor } from "./models/MainCursor";
-import { VirtualCursor } from "./models/VirtualCursor";
-import { ClickAnimation } from "./models/ClickAnimation";
-import {
-  getAbsolutePositionFromRelativePosition,
-  getRelativePositionFromAbsolutePosition,
-} from "./utils/pixel";
-// socketRef.current = io("http://localhost:3001");
-// socketRef.current.on(
-//   SocketEvents.PositionsUpdate,
-//   (data: Array<SocketCursor>) => {
-//     setCursors(data);
-//   }
-// );
-// return () => {
-//   if (socketRef.current) {
-//     socketRef.current.disconnect();
-//   }
-// };
-
-export enum SocketEvents {
-  Connection = "connection",
-  Disconnect = "disconnect",
-  NewPosition = "new_position",
-  PositionsUpdate = "positions_update",
-  SendCursorClick = "send_cursor_click",
-  CursorClick = "cursor_click",
-}
 
 async function main() {
   const socket = io("http://localhost:3001");
@@ -62,7 +34,7 @@ async function main() {
   socket.on("connect", () => {
     console.log("connected");
     console.log(socket.id);
-    const app = new App(socket.id);
+    const app = new App(socket);
 
     socket.on(SocketEvents.PositionsUpdate, (data: Array<SocketCursor>) => {
       app.clearCursors();

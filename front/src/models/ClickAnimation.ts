@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 // @ts-ignore
-import { PixiEvents } from "../types";
+import { PixiEvents } from "../../types";
 import gsap from "gsap";
 
 export class ClickAnimation extends PIXI.Graphics {

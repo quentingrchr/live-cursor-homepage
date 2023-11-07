@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { CursorData, Position } from "../types";
+import { CursorData, Position } from "../../types";
 import { ClickAnimation } from "./ClickAnimation";
 import {
   getAbsolutePositionFromRelativePosition,
@@ -8,13 +8,14 @@ import {
 import { MainCursor } from "./MainCursor";
 import { VirtualCursor } from "./VirtualCursor";
 import { ZoneSelection } from "./ZoneSelection";
+import { Socket } from "socket.io-client";
 
 export class App extends PIXI.Application {
   id: string; // Socket id
   cursorCollection: Array<PIXI.Sprite | PIXI.Graphics>;
   zoneSelection: ZoneSelection;
 
-  constructor(id: string) {
+  constructor(socket: Socket) {
     const $canva = document.querySelector("#canvas") as Element;
     super({
       background: "red",
@@ -25,8 +26,8 @@ export class App extends PIXI.Application {
       view: $canva as HTMLCanvasElement,
       resolution: 2,
     });
-    this.id = id;
-    this.zoneSelection = new ZoneSelection(this.stage);
+    this.id = socket.id;
+    this.zoneSelection = new ZoneSelection(this.stage, socket);
     this.setup();
 
     // Variable

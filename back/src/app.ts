@@ -4,6 +4,12 @@ import * as socketio from "socket.io";
 import cors from "cors"; // Import the cors package
 import { SocketEvents } from "../../shared";
 import { VIRTUAL_CURSOR_COLORS } from "./constants/cursor";
+import {
+  CursorData,
+  Position,
+  StartSelectionPayload,
+  UpdateSelectionPayload,
+} from "./types";
 
 const app = express();
 app.use(cors());
@@ -14,16 +20,6 @@ const io = new socketio.Server(server, {
     origin: "*",
   },
 });
-
-interface CursorPosition {
-  x: number;
-  y: number;
-}
-
-interface CursorData extends CursorPosition {
-  id: string;
-  color: string;
-}
 
 app.get("/", (req, res) => {
   res.send("Hello, this is your TypeScript Express server!");
@@ -43,7 +39,7 @@ io.on(SocketEvents.Connection, (socket) => {
       ],
   };
 
-  socket.on(SocketEvents.NewPosition, (data: CursorPosition) => {
+  socket.on(SocketEvents.NewPosition, (data: Position) => {
     cursorsData[socket.id] = { ...cursorsData[socket.id], ...data };
 
     const cursorDataArray = Object.values(cursorsData);
@@ -55,6 +51,32 @@ io.on(SocketEvents.Connection, (socket) => {
     io.emit(SocketEvents.CursorClick, {
       ...data,
       color: cursorsData[socket.id].color,
+    });
+  });
+
+  socket.on(SocketEvents.SendStartSelection, (data: StartSelectionPayload) => {
+    console.log(`User ${socket.id} started selection`);
+    io.emit(SocketEvents.SendStartSelection, {
+      ...data,
+      id: socket.id,
+    });
+  });
+
+  socket.on(
+    SocketEvents.SendUpdateSelection,
+    (data: UpdateSelectionPayload) => {
+      console.log(`User ${socket.id} updated selection`);
+      io.emit(SocketEvents.SendUpdateSelection, {
+        ...data,
+        id: socket.id,
+      });
+    }
+  );
+
+  socket.on(SocketEvents.SendEndSelection, () => {
+    console.log(`User ${socket.id} ended selection`);
+    io.emit(SocketEvents.SendEndSelection, {
+      id: socket.id,
     });
   });
 

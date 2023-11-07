@@ -1,4 +1,4 @@
-import { Position } from "../types";
+import { Position } from "../../types";
 
 function absoluteValueToRelativeValue(
   absoluteValue: number,
