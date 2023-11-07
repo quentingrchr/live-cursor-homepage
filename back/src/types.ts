@@ -14,10 +14,6 @@ export interface StartSelectionPayload {
   y: number;
 }
 
-export interface EndSelectionPayload {
-  id: string;
-}
-
 export interface UpdateSelectionPayload {
   id: string;
   x: number;
