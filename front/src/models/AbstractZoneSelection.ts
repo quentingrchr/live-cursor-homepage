@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { Stage } from "../type";
 
 export abstract class AbstractZoneSelection extends PIXI.Graphics {
   startX: number | undefined;
@@ -6,14 +7,14 @@ export abstract class AbstractZoneSelection extends PIXI.Graphics {
   endX: number | undefined;
   endY: number | undefined;
   color?: string | undefined;
-  constructor(private stage: PIXI.Container, color = "white") {
+  constructor(private stage: Stage, color = "white") {
     super();
-    stage.addChild(this);
     this.startX = undefined;
     this.startY = undefined;
     this.endX = undefined;
     this.endY = undefined;
     this.color = color;
+    stage.addChild(this as PIXI.DisplayObject);
   }
 
   setStartPoint({ x, y }: { x: number; y: number }) {
@@ -113,7 +114,7 @@ export abstract class AbstractZoneSelection extends PIXI.Graphics {
     this.clear();
     this.removePosition();
     if (this.stage) {
-      this.stage.removeChild(this);
+      this.stage.removeChild(this as PIXI.DisplayObject);
     }
   }
 }

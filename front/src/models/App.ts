@@ -65,7 +65,7 @@ export class App extends PIXI.Application {
     this.zoneSelection.updateSelection(e.clientX, e.clientY);
   };
 
-  onMouseUp = (e: MouseEvent) => {
+  onMouseUp = () => {
     this.zoneSelection.endSelection();
     window.removeEventListener("mousemove", this.onMouseMove);
   };
@@ -78,7 +78,7 @@ export class App extends PIXI.Application {
     this.renderer.resize(windowScreenWith, windowScreenHeight);
   };
 
-  onClick = (e: MouseEvent) => {
+  onClick = () => {
     if (!this.zoneSelection.getIsSelecting()) {
       this.zoneSelection.clearSelection();
       return;
@@ -100,14 +100,14 @@ export class App extends PIXI.Application {
     return this;
   }
 
-  addCursor(cursor: PIXI.Sprite | PIXI.Graphics) {
+  addCursor(cursor: MainCursor | VirtualCursor) {
     this.cursorCollection.push(cursor);
-    this.stage.addChild(cursor);
+    this.stage.addChild(cursor as PIXI.DisplayObject);
   }
 
   addMainCursor({ x, y }: Position) {
     const mainCursor = new MainCursor(x, y);
-    this.addCursor(mainCursor);
+    this.addCursor(mainCursor as MainCursor);
   }
 
   addVirtualCursor({ x, y, color }: Position & { color: string }) {
@@ -125,7 +125,7 @@ export class App extends PIXI.Application {
 
   clearCursors() {
     this.cursorCollection.forEach((cursor) => {
-      this.stage.removeChild(cursor);
+      this.stage.removeChild(cursor as PIXI.DisplayObject);
     });
     this.cursorCollection = [];
   }

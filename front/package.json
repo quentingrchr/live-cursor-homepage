@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx parcel src/index.html --open",
-    "clean": "rm -rf dist && rm -rf .parcel-cache"
+    "clean": "rm -rf dist && rm -rf .parcel-cache",
+    "tc": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "@pixi-essentials/svg": "^2.0.1",
     "gsap": "^3.12.2",
     "pixi.js": "^7.3.2",
-    "socket.io-client": "^4.7.2"
+    "socket.io-client": "^4.7.2",
+    "typescript": "^5.2.2"
   }
 }

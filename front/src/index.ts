@@ -1,4 +1,3 @@
-import * as PIXI from "pixi.js";
 // @ts-ignore
 // import { SocketEvents } from "../../shared";
 

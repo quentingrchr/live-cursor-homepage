@@ -27,7 +27,7 @@ export class Ripple extends PIXI.Graphics {
       return;
     }
 
-    stage.addChild(this);
+    stage.addChild(this as PIXI.DisplayObject);
     this.animate();
   }
 
@@ -52,7 +52,7 @@ export class Ripple extends PIXI.Graphics {
       ripple.scale.set(0);
       ripple.alpha = 1;
 
-      this.addChild(ripple);
+      this.addChild(ripple as PIXI.DisplayObject);
 
       gsap.to(ripple.scale, {
         x: 1,
@@ -75,7 +75,7 @@ export class Ripple extends PIXI.Graphics {
   }
 
   addToStage(stage: PIXI.Container) {
-    stage.addChild(this);
+    stage.addChild(this as PIXI.DisplayObject);
   }
 
   update() {
@@ -83,6 +83,6 @@ export class Ripple extends PIXI.Graphics {
   }
 
   destroy() {
-    if (this.parent) this.parent.removeChild(this);
+    if (this.parent) this.parent.removeChild(this as PIXI.DisplayObject);
   }
 }

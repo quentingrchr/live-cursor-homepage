@@ -1,6 +1,4 @@
 import * as PIXI from "pixi.js";
-import { Socket } from "socket.io-client";
-import { SocketEvents } from "../../../shared/src";
 import { AbstractZoneSelection } from "./AbstractZoneSelection";
 
 export class VirtualZoneSelection extends AbstractZoneSelection {
