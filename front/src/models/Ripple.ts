@@ -1,6 +1,4 @@
 import * as PIXI from "pixi.js";
-// @ts-ignore
-import { PixiEvents } from "../../types";
 import gsap from "gsap";
 
 export class Ripple extends PIXI.Graphics {
