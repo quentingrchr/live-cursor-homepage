@@ -83,7 +83,7 @@ async function main() {
     });
 
     socket.on(SocketEvents.CursorClick, (data: CursorData) => {
-      app.addCursorClickAnimation(data);
+      app.addRipple(data);
     });
 
     socket.on(

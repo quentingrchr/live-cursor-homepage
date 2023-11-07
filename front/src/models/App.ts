@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { CursorData, Position } from "../../types";
-import { ClickAnimation } from "./ClickAnimation";
+import { Ripple } from "./Ripple";
 import {
   getAbsolutePositionFromRelativePosition,
   getRelativePositionFromAbsolutePosition,
@@ -115,12 +115,12 @@ export class App extends PIXI.Application {
     this.addCursor(virtualCursor);
   }
 
-  addCursorClickAnimation(data: CursorData) {
+  addRipple(data: CursorData) {
     const { x, y, id } = data;
     const absolute = App.relativeToAbsolutePosition({ x, y });
     const isMainCursor = id === this.id;
     const color = isMainCursor ? "0x000000" : data.color;
-    new ClickAnimation(absolute.x, absolute.y, color, this.stage);
+    new Ripple(absolute.x, absolute.y, color, this.stage);
   }
 
   clearCursors() {
