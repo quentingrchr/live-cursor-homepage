@@ -1,6 +1,8 @@
-_Educational project, made for the purpose of learning websockets and Node.js. It is not intended to be used in production_
+⚠️ _Educational project, made for the purpose of learning websockets and Node.js. It is not intended to be used in production_
 
-# Live Cursor Home page
+# 🖱️ 🌐 Live Cursor Home page
+
+![Live Cursor Home page](./docs/pres.mp4)
 
 This project is a simple implementation of a live cursor for a web page, using websockets and a Node.js server. It has implemented simple features like:
 
