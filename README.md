@@ -2,7 +2,7 @@
 
 # 🖱️ 🌐 Live Cursor Home page
 
-![Live Cursor Home page](docs/pres.mp4)
+![Live Cursor Home page](https://github.com/quentingrchr/live-cursor-homepage/blob/main/docs/pres.mp4)
 
 This project is a simple implementation of a live cursor for a web page, using websockets and a Node.js server. It has implemented simple features like:
 
